@@ -1,0 +1,8 @@
+D:\_GameDevArchive\____GameJamz\LD48\.mono\temp\bin\Debug\LD48.dll
+D:\_GameDevArchive\____GameJamz\LD48\.mono\temp\bin\Debug\LD48.pdb
+D:\_GameDevArchive\____GameJamz\LD48\.mono\temp\obj\Debug\LD48.csprojAssemblyReference.cache
+D:\_GameDevArchive\____GameJamz\LD48\.mono\temp\obj\Debug\LD48.AssemblyInfoInputs.cache
+D:\_GameDevArchive\____GameJamz\LD48\.mono\temp\obj\Debug\LD48.AssemblyInfo.cs
+D:\_GameDevArchive\____GameJamz\LD48\.mono\temp\obj\Debug\LD48.csproj.CoreCompileInputs.cache
+D:\_GameDevArchive\____GameJamz\LD48\.mono\temp\obj\Debug\LD48.dll
+D:\_GameDevArchive\____GameJamz\LD48\.mono\temp\obj\Debug\LD48.pdb
