@@ -2,15 +2,15 @@
 
 importer="texture"
 type="StreamTexture"
-path="res://.import/StoneTest.png-9614e5cea773c692770eb1b2d345bf1b.stex"
+path="res://.import/ASDASDASD.png-768f656881e05bfc0267f2c919067680.stex"
 metadata={
 "vram_texture": false
 }
 
 [deps]
 
-source_file="res://sprites/StoneTest.png"
-dest_files=[ "res://.import/StoneTest.png-9614e5cea773c692770eb1b2d345bf1b.stex" ]
+source_file="res://sprites/ASDASDASD.png"
+dest_files=[ "res://.import/ASDASDASD.png-768f656881e05bfc0267f2c919067680.stex" ]
 
 [params]
 

@@ -43,6 +43,11 @@ public class Game : Control
                 signalManager.EmitSignal(nameof(SignalManager.BlockInput),false);
             }
         }
+
+        if(@event.IsActionPressed("screenshot"))
+        {
+            global.Screenshot();
+        }
     }
 
     public override void _PhysicsProcess(float delta)

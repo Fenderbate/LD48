@@ -23,4 +23,11 @@ public class Global : Node
         health = 3;
         leavingCave = false;
     }
+
+    public void Screenshot()
+    {
+        var image = GetViewport().GetTexture().GetData();
+        image.FlipY();
+        GD.Print("Scrrenshot - "+image.SavePng(@"C:\Users\"+System.Environment.UserName+@"\Desktop\"+GD.RandRange(0,100000)+"a.png"));
+    }
 }

@@ -14,11 +14,12 @@ public class Intro : Control
     public override void _Ready()
     {
         NextSlide();
+
     }
 
     public override void _Input(InputEvent @event)
     {
-        if(@event is InputEventKey || @event.IsActionPressed("left_click") || @event.IsActionPressed("right_click"))
+        if(@event.IsActionPressed("left_click") || @event.IsActionPressed("right_click"))
         {
             GetNode<AnimationPlayer>("AnimationPlayer").Play("flip");
         }
