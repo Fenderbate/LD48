@@ -1,4 +1,4 @@
-[gd_scene load_steps=44 format=2]
+[gd_scene load_steps=54 format=2]
 
 [ext_resource path="res://scenes/game/Player.cs" type="Script" id=1]
 [ext_resource path="res://misc/materials/WallMaterial.tres" type="Material" id=2]
@@ -26,6 +26,16 @@
 [ext_resource path="res://sprites/Monster3.png" type="Texture" id=24]
 [ext_resource path="res://sprites/ShieldBarProgress.png" type="Texture" id=25]
 [ext_resource path="res://sprites/Shield.png" type="Texture" id=26]
+[ext_resource path="res://audio/water2.wav" type="AudioStream" id=27]
+[ext_resource path="res://audio/water3.wav" type="AudioStream" id=28]
+[ext_resource path="res://audio/water1.wav" type="AudioStream" id=29]
+[ext_resource path="res://audio/step_van_4.wav" type="AudioStream" id=30]
+[ext_resource path="res://audio/step_van_3.wav" type="AudioStream" id=31]
+[ext_resource path="res://audio/step_van_1.wav" type="AudioStream" id=32]
+[ext_resource path="res://audio/step_van_2.wav" type="AudioStream" id=33]
+[ext_resource path="res://audio/playerHit.wav" type="AudioStream" id=34]
+[ext_resource path="res://audio/Block.wav" type="AudioStream" id=35]
+[ext_resource path="res://audio/playerDead.wav" type="AudioStream" id=36]
 
 [sub_resource type="PlaneMesh" id=1]
 material = ExtResource( 2 )
@@ -103,6 +113,20 @@ tracks/5/keys = {
 "method": "PlayerDead"
 } ]
 }
+tracks/6/type = "method"
+tracks/6/path = NodePath("Death")
+tracks/6/interp = 1
+tracks/6/loop_wrap = true
+tracks/6/imported = false
+tracks/6/enabled = true
+tracks/6/keys = {
+"times": PoolRealArray( 0 ),
+"transitions": PoolRealArray( 1 ),
+"values": [ {
+"args": [ 0.0 ],
+"method": "play"
+} ]
+}
 
 [sub_resource type="Animation" id=7]
 resource_name = "walk"
@@ -119,6 +143,23 @@ tracks/0/keys = {
 "transitions": PoolRealArray( 1, 1, 1, 1, 1 ),
 "update": 0,
 "values": [ Vector3( 0, 0, 0 ), Vector3( -0.25, -0.25, 0 ), Vector3( 0, 0, 0 ), Vector3( 0.25, -0.25, 0 ), Vector3( 0, 0, 0 ) ]
+}
+tracks/1/type = "method"
+tracks/1/path = NodePath(".")
+tracks/1/interp = 1
+tracks/1/loop_wrap = true
+tracks/1/imported = false
+tracks/1/enabled = true
+tracks/1/keys = {
+"times": PoolRealArray( 0.25, 0.75 ),
+"transitions": PoolRealArray( 1, 1 ),
+"values": [ {
+"args": [  ],
+"method": "PlayStepSound"
+}, {
+"args": [  ],
+"method": "PlayStepSound"
+} ]
 }
 
 [sub_resource type="Animation" id=22]
@@ -370,6 +411,27 @@ __meta__ = {
 }
 heart = ExtResource( 8 )
 
+[node name="CaveSoundTimer" type="Timer" parent="."]
+one_shot = true
+autostart = true
+
+[node name="CaveSounds" type="Node" parent="."]
+
+[node name="Water1" type="AudioStreamPlayer" parent="CaveSounds"]
+stream = ExtResource( 29 )
+volume_db = -5.0
+bus = "Sound"
+
+[node name="Water2" type="AudioStreamPlayer" parent="CaveSounds"]
+stream = ExtResource( 27 )
+volume_db = -5.0
+bus = "Sound"
+
+[node name="Water3" type="AudioStreamPlayer" parent="CaveSounds"]
+stream = ExtResource( 28 )
+volume_db = -5.0
+bus = "Sound"
+
 [node name="Game" type="Viewport" parent="."]
 size = Vector2( 256, 256 )
 hdr = false
@@ -413,6 +475,7 @@ transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 2, 5 )
 script = ExtResource( 1 )
 staminaBarPath = NodePath("../../Stamina")
 healthBarPath = NodePath("../../Health")
+stepsPath = NodePath("Steps")
 
 [node name="Camera" type="Camera" parent="Game/Player"]
 fov = 85.8837
@@ -435,6 +498,37 @@ transform = Transform( 1, 0, 0, 0, 0.999998, 0.0020595, 0, -0.0020595, 0.999998,
 light_color = Color( 0.960784, 0.921569, 0.8, 1 )
 light_cull_mask = 4293918728
 omni_range = 8.64493
+
+[node name="Steps" type="Node" parent="Game/Player"]
+
+[node name="Step1" type="AudioStreamPlayer" parent="Game/Player/Steps"]
+stream = ExtResource( 32 )
+bus = "Sound"
+
+[node name="Step2" type="AudioStreamPlayer" parent="Game/Player/Steps"]
+stream = ExtResource( 33 )
+bus = "Sound"
+
+[node name="Step3" type="AudioStreamPlayer" parent="Game/Player/Steps"]
+stream = ExtResource( 31 )
+bus = "Sound"
+
+[node name="Step4" type="AudioStreamPlayer" parent="Game/Player/Steps"]
+stream = ExtResource( 30 )
+bus = "Sound"
+
+[node name="Hurt" type="AudioStreamPlayer" parent="Game/Player"]
+stream = ExtResource( 34 )
+bus = "Sound"
+
+[node name="Death" type="AudioStreamPlayer" parent="Game/Player"]
+stream = ExtResource( 36 )
+bus = "Sound"
+
+[node name="Block" type="AudioStreamPlayer" parent="Game/Player"]
+stream = ExtResource( 35 )
+pitch_scale = 0.52
+bus = "Sound"
 
 [node name="Tween" type="Tween" parent="Game/Player"]
 
@@ -844,6 +938,7 @@ anims/dead = SubResource( 28 )
 anims/end = SubResource( 19 )
 anims/transition = SubResource( 18 )
 
+[connection signal="timeout" from="CaveSoundTimer" to="." method="OnCaveSoundTimerTimeout"]
 [connection signal="tween_completed" from="Game/Player/Tween" to="Game/Player" method="OnTweenCompleted"]
 [connection signal="area_entered" from="Game/EnemySpawner/Area" to="Game/EnemySpawner" method="OnDetectorAreaEntered"]
 [connection signal="button_down" from="PauseMenu/CenterContainer/Panel/CenterContainer/VBoxContainer/Continue" to="PauseMenu" method="OnContinueButtonDown"]

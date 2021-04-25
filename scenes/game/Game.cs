@@ -96,5 +96,17 @@ public class Game : Control
         GetNode<AnimationPlayer>("AnimationPlayer").Play("end");
         GD.Print("MAKE ENDING!");
     }
+
+    #region ambient code
+
+    private void OnCaveSoundTimerTimeout()
+    {
+        (GetNode<Node>("CaveSounds").GetChildren()[(int)GD.RandRange(0, GetNode<Node>("CaveSounds").GetChildCount() - 1)] as AudioStreamPlayer).Play();
+        GetNode<Timer>("CaveSoundTimer").WaitTime = (float)GD.RandRange(1,10);
+        GetNode<Timer>("CaveSoundTimer").Start();
+    }
+
+
+    #endregion
     
 }

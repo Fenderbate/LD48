@@ -1,0 +1,21 @@
+[remap]
+
+importer="wav"
+type="AudioStreamSample"
+path="res://.import/water2.wav-7912b87a7e03a0031e8e0058f7242dc8.sample"
+
+[deps]
+
+source_file="res://audio/water2.wav"
+dest_files=[ "res://.import/water2.wav-7912b87a7e03a0031e8e0058f7242dc8.sample" ]
+
+[params]
+
+force/8_bit=false
+force/mono=false
+force/max_rate=false
+force/max_rate_hz=44100
+edit/trim=false
+edit/normalize=false
+edit/loop=false
+compress/mode=0

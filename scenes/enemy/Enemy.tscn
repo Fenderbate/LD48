@@ -1,9 +1,13 @@
-[gd_scene load_steps=11 format=2]
+[gd_scene load_steps=15 format=2]
 
+[ext_resource path="res://audio/hit3.wav" type="AudioStream" id=1]
 [ext_resource path="res://scenes/enemy/Enemy.cs" type="Script" id=2]
 [ext_resource path="res://misc/materials/TransparentToonShader.shader" type="Shader" id=3]
+[ext_resource path="res://audio/hit1.wav" type="AudioStream" id=4]
 [ext_resource path="res://sprites/SpritePlaceholder.png" type="Texture" id=5]
 [ext_resource path="res://sprites/Monster1.png" type="Texture" id=6]
+[ext_resource path="res://audio/hit2.wav" type="AudioStream" id=7]
+[ext_resource path="res://audio/enemyDead.wav" type="AudioStream" id=8]
 
 [sub_resource type="ViewportTexture" id=4]
 viewport_path = NodePath("Viewport")
@@ -104,6 +108,20 @@ tracks/2/keys = {
 "update": 1,
 "values": [ 3 ]
 }
+tracks/3/type = "method"
+tracks/3/path = NodePath("Death")
+tracks/3/interp = 1
+tracks/3/loop_wrap = true
+tracks/3/imported = false
+tracks/3/enabled = true
+tracks/3/keys = {
+"times": PoolRealArray( 0 ),
+"transitions": PoolRealArray( 1 ),
+"values": [ {
+"args": [ 0.0 ],
+"method": "play"
+} ]
+}
 
 [sub_resource type="CubeMesh" id=6]
 
@@ -144,5 +162,24 @@ transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -0.910421, -1.03485 )
 visible = false
 mesh = SubResource( 6 )
 material/0 = null
+
+[node name="HitSounds" type="Node" parent="."]
+
+[node name="Hit1" type="AudioStreamPlayer" parent="HitSounds"]
+stream = ExtResource( 4 )
+bus = "Sound"
+
+[node name="Hit2" type="AudioStreamPlayer" parent="HitSounds"]
+stream = ExtResource( 7 )
+bus = "Sound"
+
+[node name="Hit3" type="AudioStreamPlayer" parent="HitSounds"]
+stream = ExtResource( 1 )
+bus = "Sound"
+
+[node name="Death" type="AudioStreamPlayer" parent="."]
+stream = ExtResource( 8 )
+pitch_scale = 0.55
+bus = "Sound"
 
 [connection signal="timeout" from="AttackTimer" to="." method="OnAttackTimerTimeout"]

@@ -8,6 +8,9 @@ public class Player : Spatial
     [Export]
     private NodePath healthBarPath;
 
+    [Export]
+    private NodePath stepsPath;
+
     private TextureProgress staminaBar;
 
     private TextureProgress healthBar;
@@ -111,7 +114,10 @@ public class Player : Spatial
         }
     }
 
-
+    public void PlayStepSound()
+    {
+        (GetNode<Node>(stepsPath).GetChildren()[(int)GD.RandRange(0, GetNode<Node>(stepsPath).GetChildCount() - 1)] as AudioStreamPlayer).Play();
+    }
 
     private void StopMoving()
     {
@@ -195,7 +201,8 @@ public class Player : Spatial
     {
         if(blocking && stamina > 0)
         {
-            GD.Print("Player blocked");
+            GetNode<AudioStreamPlayer>("Block").PitchScale = (float)GD.RandRange(0.3,0.7);
+            GetNode<AudioStreamPlayer>("Block").Play();
             shieldBlockShakes += 5;
             stamina--;
             if(stamina <= 0)
@@ -209,6 +216,7 @@ public class Player : Spatial
         }
         else
         {
+            
             health--;
             signalManager.EmitSignal(nameof(SignalManager.UpdatePlayerHP),health);
             healthBar.Value = health;
@@ -217,6 +225,7 @@ public class Player : Spatial
                 died = true;
                 GetNode<AnimationPlayer>("AnimationPlayer").Play("die");
             }
+            if(!died) GetNode<AudioStreamPlayer>("Hurt").Play();
         }
         
     }

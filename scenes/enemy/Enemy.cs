@@ -97,6 +97,7 @@ public class Enemy : Area
 
     private void OnPlayerAttack()
     {
+        
         health--;
         if(health <= 0 && !dead && !endItem)
         {
@@ -104,6 +105,7 @@ public class Enemy : Area
             GetNode<Timer>("AttackTimer").Stop();
             GetNode<AnimationPlayer>("AnimationPlayer").Play("die");
         }
+        if(!dead) (GetNode<Node>("HitSounds").GetChildren()[(int)GD.RandRange(0, GetNode<Node>("HitSounds").GetChildCount() - 1)] as AudioStreamPlayer).Play();
     }
 
     private void Dead()
