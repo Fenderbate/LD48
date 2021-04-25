@@ -1,0 +1,133 @@
+[gd_scene load_steps=2 format=2]
+
+[ext_resource path="res://scenes/pausemenu/PauseMenu.cs" type="Script" id=1]
+
+[node name="PauseMenu" type="Control"]
+pause_mode = 2
+anchor_right = 1.0
+anchor_bottom = 1.0
+mouse_filter = 2
+script = ExtResource( 1 )
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="ColorRect" type="ColorRect" parent="."]
+anchor_right = 1.0
+anchor_bottom = 1.0
+color = Color( 0.145098, 0.145098, 0.164706, 0.505882 )
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="CenterContainer" type="CenterContainer" parent="."]
+use_parent_material = true
+anchor_right = 1.0
+anchor_bottom = 1.0
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="Panel" type="Panel" parent="CenterContainer"]
+use_parent_material = true
+margin_left = 156.0
+margin_top = 106.0
+margin_right = 356.0
+margin_bottom = 406.0
+rect_min_size = Vector2( 200, 300 )
+
+[node name="CenterContainer" type="CenterContainer" parent="CenterContainer/Panel"]
+use_parent_material = true
+anchor_left = 0.05
+anchor_top = 0.05
+anchor_right = 0.95
+anchor_bottom = 0.95
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="VBoxContainer" type="VBoxContainer" parent="CenterContainer/Panel/CenterContainer"]
+use_parent_material = true
+margin_left = 30.0
+margin_top = 13.0
+margin_right = 149.0
+margin_bottom = 257.0
+
+[node name="Margin" type="Control" parent="CenterContainer/Panel/CenterContainer/VBoxContainer"]
+use_parent_material = true
+margin_right = 119.0
+margin_bottom = 20.0
+rect_min_size = Vector2( 0, 20 )
+
+[node name="Label" type="Label" parent="CenterContainer/Panel/CenterContainer/VBoxContainer"]
+use_parent_material = true
+margin_top = 24.0
+margin_right = 119.0
+margin_bottom = 38.0
+text = "Paused"
+align = 1
+valign = 1
+
+[node name="Margin2" type="Control" parent="CenterContainer/Panel/CenterContainer/VBoxContainer"]
+use_parent_material = true
+margin_top = 42.0
+margin_right = 119.0
+margin_bottom = 82.0
+rect_min_size = Vector2( 0, 40 )
+
+[node name="Continue" type="TextureButton" parent="CenterContainer/Panel/CenterContainer/VBoxContainer"]
+use_parent_material = true
+margin_top = 86.0
+margin_right = 119.0
+margin_bottom = 136.0
+rect_min_size = Vector2( 100, 50 )
+
+[node name="Label" type="Label" parent="CenterContainer/Panel/CenterContainer/VBoxContainer/Continue"]
+use_parent_material = true
+anchor_right = 1.0
+anchor_bottom = 1.0
+text = "Continue"
+align = 1
+valign = 1
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="Music" type="CheckButton" parent="CenterContainer/Panel/CenterContainer/VBoxContainer"]
+use_parent_material = true
+margin_top = 140.0
+margin_right = 119.0
+margin_bottom = 190.0
+rect_min_size = Vector2( 100, 50 )
+pressed = true
+text = "Music"
+
+[node name="Sound" type="CheckButton" parent="CenterContainer/Panel/CenterContainer/VBoxContainer"]
+use_parent_material = true
+margin_top = 194.0
+margin_right = 119.0
+margin_bottom = 244.0
+rect_min_size = Vector2( 100, 50 )
+pressed = true
+text = "Sound"
+
+[node name="Exit" type="TextureButton" parent="CenterContainer/Panel/CenterContainer/VBoxContainer"]
+visible = false
+use_parent_material = true
+margin_top = 228.0
+margin_right = 119.0
+margin_bottom = 278.0
+rect_min_size = Vector2( 100, 50 )
+
+[node name="Label" type="Label" parent="CenterContainer/Panel/CenterContainer/VBoxContainer/Exit"]
+anchor_right = 1.0
+anchor_bottom = 1.0
+text = "Exit"
+align = 1
+valign = 1
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[connection signal="button_down" from="CenterContainer/Panel/CenterContainer/VBoxContainer/Continue" to="." method="OnContinueButtonDown"]
+[connection signal="toggled" from="CenterContainer/Panel/CenterContainer/VBoxContainer/Music" to="." method="OnMusicToggled"]

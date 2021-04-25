@@ -1,0 +1,30 @@
+[gd_resource type="ShaderMaterial" load_steps=4 format=2]
+
+[sub_resource type="Shader" id=8]
+code = "shader_type canvas_item;
+
+uniform sampler2D gradient : hint_black; // It can be whatever palette you want
+uniform float mix_amount = 1;
+
+
+void fragment(){ 
+	vec4 col = texture(TEXTURE,UV);
+	
+	float grayscale_value = dot(col.rgb,vec3(0.299,0.587,0.114));
+	vec3 sampled_color = texture(gradient, vec2(grayscale_value, 0.0)).rgb;
+	
+	COLOR.rgb = mix(col.rgb, sampled_color, mix_amount);
+	COLOR.a = col.a;
+}"
+
+[sub_resource type="Gradient" id=11]
+offsets = PoolRealArray( 0.00958466, 0.990415 )
+colors = PoolColorArray( 0.192157, 0.168627, 0.137255, 1, 0.946777, 0.850259, 0.551054, 1 )
+
+[sub_resource type="GradientTexture" id=12]
+gradient = SubResource( 11 )
+
+[resource]
+shader = SubResource( 8 )
+shader_param/mix_amount = 1.0
+shader_param/gradient = SubResource( 12 )

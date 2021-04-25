@@ -1,0 +1,148 @@
+[gd_scene load_steps=11 format=2]
+
+[ext_resource path="res://scenes/enemy/Enemy.cs" type="Script" id=2]
+[ext_resource path="res://misc/materials/TransparentToonShader.shader" type="Shader" id=3]
+[ext_resource path="res://sprites/SpritePlaceholder.png" type="Texture" id=5]
+[ext_resource path="res://sprites/Monster1.png" type="Texture" id=6]
+
+[sub_resource type="ViewportTexture" id=4]
+viewport_path = NodePath("Viewport")
+
+[sub_resource type="ShaderMaterial" id=2]
+resource_local_to_scene = true
+shader = ExtResource( 3 )
+shader_param/albedo = Color( 1, 1, 1, 1 )
+shader_param/clamp_diffuse_to_max = false
+shader_param/cuts = 3
+shader_param/wrap = 0.0
+shader_param/steepness = 1.0
+shader_param/use_attenuation = true
+shader_param/use_specular = false
+shader_param/specular_strength = 1.0
+shader_param/specular_shininess = 16.0
+shader_param/use_rim = false
+shader_param/rim_width = 8.0
+shader_param/rim_color = Color( 1, 1, 1, 1 )
+shader_param/use_ramp = false
+shader_param/use_borders = false
+shader_param/border_width = 0.01
+shader_param/uv_scale = Vector2( 1, 1 )
+shader_param/uv_offset = Vector2( 0, 0 )
+shader_param/albedo_texture = SubResource( 4 )
+
+[sub_resource type="SphereShape" id=1]
+radius = 0.466727
+
+[sub_resource type="Animation" id=5]
+resource_name = "attack"
+length = 0.4
+tracks/0/type = "value"
+tracks/0/path = NodePath("Viewport/Sprite:frame")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/keys = {
+"times": PoolRealArray( 0, 0.2, 0.4 ),
+"transitions": PoolRealArray( 1, 1, 1 ),
+"update": 1,
+"values": [ 1, 2, 0 ]
+}
+tracks/1/type = "method"
+tracks/1/path = NodePath(".")
+tracks/1/interp = 1
+tracks/1/loop_wrap = true
+tracks/1/imported = false
+tracks/1/enabled = true
+tracks/1/keys = {
+"times": PoolRealArray( 0.2 ),
+"transitions": PoolRealArray( 1 ),
+"values": [ {
+"args": [  ],
+"method": "Attack"
+} ]
+}
+
+[sub_resource type="Animation" id=3]
+resource_name = "die"
+length = 1.6
+tracks/0/type = "value"
+tracks/0/path = NodePath("Sprite:visible")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/keys = {
+"times": PoolRealArray( 0, 0.2, 0.4, 0.6, 0.8, 1, 1.2, 1.4 ),
+"transitions": PoolRealArray( 1, 1, 1, 1, 1, 1, 1, 1 ),
+"update": 1,
+"values": [ true, false, true, false, true, false, true, false ]
+}
+tracks/1/type = "method"
+tracks/1/path = NodePath(".")
+tracks/1/interp = 1
+tracks/1/loop_wrap = true
+tracks/1/imported = false
+tracks/1/enabled = true
+tracks/1/keys = {
+"times": PoolRealArray( 1.6 ),
+"transitions": PoolRealArray( 1 ),
+"values": [ {
+"args": [  ],
+"method": "Dead"
+} ]
+}
+tracks/2/type = "value"
+tracks/2/path = NodePath("Viewport/Sprite:frame")
+tracks/2/interp = 1
+tracks/2/loop_wrap = true
+tracks/2/imported = false
+tracks/2/enabled = true
+tracks/2/keys = {
+"times": PoolRealArray( 0 ),
+"transitions": PoolRealArray( 1 ),
+"update": 1,
+"values": [ 3 ]
+}
+
+[sub_resource type="CubeMesh" id=6]
+
+[node name="Enemy" type="Area"]
+script = ExtResource( 2 )
+sprite = ExtResource( 6 )
+renderSprite = NodePath("Viewport/Sprite")
+
+[node name="Viewport" type="Viewport" parent="."]
+size = Vector2( 384, 384 )
+transparent_bg = true
+render_target_v_flip = true
+
+[node name="Sprite" type="Sprite" parent="Viewport"]
+scale = Vector2( 3, 3 )
+texture = ExtResource( 6 )
+centered = false
+hframes = 4
+
+[node name="Sprite" type="Sprite3D" parent="."]
+transform = Transform( 1.5, 0, 0, 0, 1.5, 0, 0, 0, 1, 0, 0.966355, 0 )
+layers = 8
+material_override = SubResource( 2 )
+texture = ExtResource( 5 )
+
+[node name="CollisionShape" type="CollisionShape" parent="."]
+shape = SubResource( 1 )
+
+[node name="AttackTimer" type="Timer" parent="."]
+one_shot = true
+
+[node name="AnimationPlayer" type="AnimationPlayer" parent="."]
+anims/attack = SubResource( 5 )
+anims/die = SubResource( 3 )
+
+[node name="MeshInstance" type="MeshInstance" parent="."]
+transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -0.910421, -1.03485 )
+visible = false
+mesh = SubResource( 6 )
+material/0 = null
+
+[connection signal="timeout" from="AttackTimer" to="." method="OnAttackTimerTimeout"]

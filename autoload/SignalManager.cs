@@ -3,19 +3,48 @@ using System;
 
 public class SignalManager : Node
 {
-    // Declare member variables here. Examples:
-    // private int a = 2;
-    // private string b = "text";
+    [Signal]
+    public delegate void EnemyAttack();
 
-    // Called when the node enters the scene tree for the first time.
-    public override void _Ready()
-    {
-        
-    }
+    [Signal]
+    public delegate void PlayerAttack();
 
-//  // Called every frame. 'delta' is the elapsed time since the previous frame.
-//  public override void _Process(float delta)
-//  {
-//      
-//  }
+    [Signal]
+    public delegate void EnemyAppeared();
+
+    [Signal]
+    public delegate void EnemyDead();
+
+    [Signal]
+    public delegate void SpawnEnemy();
+
+    [Signal]
+    public delegate void FightStart();
+
+    [Signal]
+    public delegate void PlayerBlocking(bool blocking);
+
+    [Signal]
+    public delegate void AttackInput();
+
+    [Signal]
+    public delegate void BlockInput(bool blocking);
+
+    [Signal]
+    public delegate void UpdatePlayerHP(int HPLeft);
+
+    [Signal]
+    public delegate void GameOver();
+
+    [Signal]
+    public delegate void Victory();
+
+    [Signal]
+    public delegate void TurnAround();
+
+    [Signal]
+    public delegate void CaveEndReached();
+
+    [Signal]
+    public delegate void CaveBeginingReached();
 }

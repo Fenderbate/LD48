@@ -3,26 +3,29 @@ using System;
 
 public class Transition : Control
 {
-    // Declare member variables here. Examples:
-    // private int a = 2;
-    // private string b = "text";
-
+    private string newScenePath;
     // Called when the node enters the scene tree for the first time.
     public override void _Ready()
     {
-        
+
     }
 
-    private async void OnChangeScene(String newScene)
+    public void ChangeScene(string newScene)
     {
-        PackedScene scene = GD.Load<PackedScene>(newScene);
-        GetTree().ChangeSceneTo(scene);
-        await ToSignal(GetTree(),"idle_frame");
-        GetNode<AnimationPlayer>("AnimationPlayer").Play("FadeOut");
+        GetNode<AnimationPlayer>("AnimationPlayer").Play("FadeIn");
+        newScenePath = newScene;
     }
 
     private void Pause(bool pause)
     {
         GetTree().Paused = pause;
+    }
+
+    private void Change()
+    {
+        GetNode<Global>("/root/Global").Reset();
+        PackedScene scene = GD.Load<PackedScene>(newScenePath);
+        GD.Print("Result: "+ GetTree().ChangeSceneTo(scene));
+        GetNode<AnimationPlayer>("AnimationPlayer").Play("FadeOut");
     }
 }

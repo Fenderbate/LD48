@@ -1,0 +1,181 @@
+[gd_scene load_steps=6 format=2]
+
+[ext_resource path="res://sprites/IntroSpriteSheet.png" type="Texture" id=1]
+[ext_resource path="res://misc/fonts/Font.tres" type="DynamicFont" id=2]
+[ext_resource path="res://scenes/intro/Intro.cs" type="Script" id=3]
+
+[sub_resource type="Animation" id=1]
+resource_name = "flip"
+length = 0.4
+step = 0.01
+tracks/0/type = "value"
+tracks/0/path = NodePath("Cover:color")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/keys = {
+"times": PoolRealArray( 0, 0.2, 0.4 ),
+"transitions": PoolRealArray( 1, 1, 1 ),
+"update": 0,
+"values": [ Color( 0.0627451, 0.054902, 0.0431373, 0 ), Color( 0.0627451, 0.054902, 0.0431373, 1 ), Color( 0.0627451, 0.054902, 0.0431373, 0 ) ]
+}
+tracks/1/type = "method"
+tracks/1/path = NodePath(".")
+tracks/1/interp = 1
+tracks/1/loop_wrap = true
+tracks/1/imported = false
+tracks/1/enabled = true
+tracks/1/keys = {
+"times": PoolRealArray( 0.2 ),
+"transitions": PoolRealArray( 1 ),
+"values": [ {
+"args": [  ],
+"method": "NextSlide"
+} ]
+}
+
+[sub_resource type="Animation" id=2]
+resource_name = "moveCam"
+length = 0.4
+step = 0.01
+tracks/0/type = "value"
+tracks/0/path = NodePath("Cover:color")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/keys = {
+"times": PoolRealArray( 0, 0.2, 0.4 ),
+"transitions": PoolRealArray( 1, 1, 1 ),
+"update": 0,
+"values": [ Color( 0.0627451, 0.054902, 0.0431373, 0 ), Color( 0.0627451, 0.054902, 0.0431373, 1 ), Color( 0.0627451, 0.054902, 0.0431373, 0 ) ]
+}
+tracks/1/type = "method"
+tracks/1/path = NodePath(".")
+tracks/1/interp = 1
+tracks/1/loop_wrap = true
+tracks/1/imported = false
+tracks/1/enabled = true
+tracks/1/keys = {
+"times": PoolRealArray( 0.2 ),
+"transitions": PoolRealArray( 1 ),
+"values": [ {
+"args": [  ],
+"method": "NextPos"
+} ]
+}
+
+[node name="Intro" type="Control"]
+anchor_right = 1.0
+anchor_bottom = 1.0
+script = ExtResource( 3 )
+__meta__ = {
+"_edit_use_anchors_": false
+}
+nextScene = "res://scenes/game/Game.tscn"
+
+[node name="Sprite" type="Sprite" parent="."]
+use_parent_material = true
+scale = Vector2( 4, 4 )
+texture = ExtResource( 1 )
+centered = false
+hframes = 2
+vframes = 2
+
+[node name="Labels" type="Control" parent="."]
+anchor_right = 1.0
+anchor_bottom = 1.0
+rect_min_size = Vector2( 512, 512 )
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="Label0" type="Label" parent="Labels"]
+visible = false
+self_modulate = Color( 0.945098, 0.847059, 0.54902, 1 )
+anchor_right = 1.0
+anchor_bottom = 1.0
+custom_fonts/font = ExtResource( 2 )
+text = "Another day,
+another job."
+align = 1
+valign = 1
+
+[node name="Label1" type="Label" parent="Labels"]
+visible = false
+self_modulate = Color( 0.945098, 0.847059, 0.54902, 1 )
+margin_right = 512.0
+margin_bottom = 256.0
+custom_fonts/font = ExtResource( 2 )
+text = "Got the money up front..."
+align = 1
+valign = 1
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="Label2" type="Label" parent="Labels"]
+visible = false
+self_modulate = Color( 0.945098, 0.847059, 0.54902, 1 )
+margin_top = 396.0
+margin_right = 512.0
+margin_bottom = 512.0
+custom_fonts/font = ExtResource( 2 )
+text = "...and got my gear."
+align = 1
+valign = 1
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="Label3" type="Label" parent="Labels"]
+visible = false
+self_modulate = Color( 0.945098, 0.847059, 0.54902, 1 )
+anchor_right = 1.0
+anchor_bottom = 1.0
+custom_fonts/font = ExtResource( 2 )
+text = "Let's get this
+over with."
+align = 1
+valign = 1
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="Label4" type="Label" parent="Labels"]
+visible = false
+self_modulate = Color( 0.945098, 0.847059, 0.54902, 1 )
+anchor_right = 1.0
+anchor_bottom = 1.0
+custom_fonts/font = ExtResource( 2 )
+text = "You got hired to resque
+a person from a cave full of monsters. Job was payed for in advance, so... just don't die.
+
+
+
+Attack - Leftclick / A
+Block - (hold) Rightclick / D
+
+
+
+Press anything to continue..."
+align = 1
+valign = 1
+autowrap = true
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="Cover" type="ColorRect" parent="."]
+anchor_right = 1.0
+anchor_bottom = 1.0
+rect_min_size = Vector2( 512, 512 )
+color = Color( 0.0627451, 0.054902, 0.0431373, 0 )
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="AnimationPlayer" type="AnimationPlayer" parent="."]
+anims/flip = SubResource( 1 )
+anims/moveCam = SubResource( 2 )

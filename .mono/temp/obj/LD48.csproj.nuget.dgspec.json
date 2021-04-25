@@ -1,17 +1,17 @@
 {
   "format": 1,
   "restore": {
-    "D:\\_GameDevArchive\\____GameJamz\\LD48\\LD48.csproj": {}
+    "D:\\GameDevArchive\\Gamejams\\LD48\\LD48\\LD48.csproj": {}
   },
   "projects": {
-    "D:\\_GameDevArchive\\____GameJamz\\LD48\\LD48.csproj": {
+    "D:\\GameDevArchive\\Gamejams\\LD48\\LD48\\LD48.csproj": {
       "version": "1.0.0",
       "restore": {
-        "projectUniqueName": "D:\\_GameDevArchive\\____GameJamz\\LD48\\LD48.csproj",
+        "projectUniqueName": "D:\\GameDevArchive\\Gamejams\\LD48\\LD48\\LD48.csproj",
         "projectName": "LD48",
-        "projectPath": "D:\\_GameDevArchive\\____GameJamz\\LD48\\LD48.csproj",
+        "projectPath": "D:\\GameDevArchive\\Gamejams\\LD48\\LD48\\LD48.csproj",
         "packagesPath": "C:\\Users\\kfmfg\\.nuget\\packages\\",
-        "outputPath": "D:\\_GameDevArchive\\____GameJamz\\LD48\\.mono\\temp\\obj\\",
+        "outputPath": "D:\\GameDevArchive\\Gamejams\\LD48\\LD48\\.mono\\temp\\obj\\",
         "projectStyle": "PackageReference",
         "configFilePaths": [
           "C:\\Users\\kfmfg\\AppData\\Roaming\\NuGet\\NuGet.Config",
