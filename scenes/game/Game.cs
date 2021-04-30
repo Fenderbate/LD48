@@ -86,6 +86,8 @@ public class Game : Control
         leaving = true;
     }
 
+    
+
     private void OnCaveEndReached()
     {
         GetNode<AnimationPlayer>("AnimationPlayer").Play("transition");

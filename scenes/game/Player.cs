@@ -119,12 +119,12 @@ public class Player : Spatial
         (GetNode<Node>(stepsPath).GetChildren()[(int)GD.RandRange(0, GetNode<Node>(stepsPath).GetChildCount() - 1)] as AudioStreamPlayer).Play();
     }
 
-    private void StopMoving()
+    private void StopMoving(float timeToStop)
     {
         GetNode<AnimationPlayer>("AnimationPlayer").Stop();
         GetNode<Tween>("Tween").StopAll();
-        GetNode<Tween>("Tween").InterpolateProperty(global,nameof(global.moveSpeed),global.moveSpeed,global.minMoveSpeed,0.5f);
-        GetNode<Tween>("Tween").InterpolateProperty(camera,"translation",camera.Translation,new Vector3(0,0,0),0.5f);
+        GetNode<Tween>("Tween").InterpolateProperty(global,nameof(global.moveSpeed),global.moveSpeed,global.minMoveSpeed,timeToStop);
+        GetNode<Tween>("Tween").InterpolateProperty(camera,"translation",camera.Translation,new Vector3(0,0,0),timeToStop);
         GetNode<Tween>("Tween").Start();
     }
     private void StartMoving()
@@ -140,9 +140,9 @@ public class Player : Spatial
         signalManager.EmitSignal(nameof(SignalManager.GameOver));
     }
 
-    private void OnEnemyAppeard()
+    private void OnEnemyAppeard(float stopMovingTime)
     {
-        StopMoving();
+        StopMoving(stopMovingTime);
     }
 
     private void OnEnemyDead()
@@ -160,7 +160,7 @@ public class Player : Spatial
     {
         if((obj as Node).Name == global.Name && global.moveSpeed <= 0)
         {
-            signalManager.EmitSignal(nameof(SignalManager.FightStart));
+            //signalManager.EmitSignal(nameof(SignalManager.FightStart));
             canAct = true;
         }
         else

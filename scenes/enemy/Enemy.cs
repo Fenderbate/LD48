@@ -28,6 +28,8 @@ public class Enemy : Area
     public float RestTime; // wait after the total number of attacks were executed once
 
     private int attacksDone;
+
+    private int hitShakes = 0;
     
 
     public override void _Ready()
@@ -53,7 +55,18 @@ public class Enemy : Area
 
     public override void _PhysicsProcess(float delta)
     {
-        Translation += new Vector3(0, 0, moveSpeed * GetNode<Global>("/root/Global").moveSpeed);
+        //Translation += new Vector3(0, 0, moveSpeed * GetNode<Global>("/root/Global").moveSpeed);
+
+        if(hitShakes > 0)
+        {
+            GetNode<Sprite3D>("Sprite").Translation = new Vector3((float)GD.RandRange(-0.25,0.25),1,(float)GD.RandRange(-0.25,0.25));
+            hitShakes--;
+        }
+        else
+        {
+            GetNode<Sprite3D>("Sprite").Translation = new Vector3(0,1,0);
+        }
+
     }
 
     private void Attack()
@@ -80,6 +93,7 @@ public class Enemy : Area
 
     private void OnFightStart()
     {
+        
         if(caveEntrance)
         {
             signalManager.EmitSignal(nameof(SignalManager.CaveBeginingReached));
@@ -97,7 +111,7 @@ public class Enemy : Area
 
     private void OnPlayerAttack()
     {
-        
+        hitShakes += 5;
         health--;
         if(health <= 0 && !dead && !endItem)
         {

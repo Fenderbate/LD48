@@ -16,6 +16,8 @@ public class Global : Node
 
     public bool leavingCave = false;
 
+    public float enemySpeed = 1.5f;
+
     public void Reset()
     {
         moveSpeed = maxMoveSpeed;

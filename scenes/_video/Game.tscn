@@ -1,0 +1,115 @@
+[gd_scene load_steps=11 format=2]
+
+[ext_resource path="res://models/Shield.obj" type="ArrayMesh" id=1]
+[ext_resource path="res://models/Sword.obj" type="ArrayMesh" id=2]
+[ext_resource path="res://misc/materials/WallMaterial.tres" type="Material" id=3]
+[ext_resource path="res://misc/materials/ToonShader.shader" type="Shader" id=4]
+[ext_resource path="res://misc/materials/ScreenColorMaterial.tres" type="Material" id=5]
+
+[sub_resource type="StreamTexture" id=2]
+flags = 23
+load_path = "res://.import/Shield.png-3709509566c89f62e3fc618f0ec0cca4.s3tc.stex"
+
+[sub_resource type="ShaderMaterial" id=3]
+shader = ExtResource( 4 )
+shader_param/albedo = Color( 1, 1, 1, 1 )
+shader_param/clamp_diffuse_to_max = false
+shader_param/cuts = 3
+shader_param/wrap = 0.0
+shader_param/steepness = 1.0
+shader_param/use_attenuation = false
+shader_param/use_specular = false
+shader_param/specular_strength = 1.0
+shader_param/specular_shininess = 16.0
+shader_param/use_rim = false
+shader_param/rim_width = 8.0
+shader_param/rim_color = Color( 1, 1, 1, 1 )
+shader_param/use_ramp = false
+shader_param/use_borders = false
+shader_param/border_width = 0.01
+shader_param/uv_scale = Vector2( 1, 1 )
+shader_param/uv_offset = Vector2( 0, 0 )
+shader_param/albedo_texture = SubResource( 2 )
+
+[sub_resource type="ShaderMaterial" id=4]
+shader = ExtResource( 4 )
+shader_param/albedo = Color( 1, 1, 1, 1 )
+shader_param/clamp_diffuse_to_max = false
+shader_param/cuts = 3
+shader_param/wrap = 0.0
+shader_param/steepness = 1.0
+shader_param/use_attenuation = false
+shader_param/use_specular = false
+shader_param/specular_strength = 1.0
+shader_param/specular_shininess = 14.426
+shader_param/use_rim = false
+shader_param/rim_width = 8.0
+shader_param/rim_color = Color( 1, 1, 1, 1 )
+shader_param/use_ramp = false
+shader_param/use_borders = false
+shader_param/border_width = 0.01
+shader_param/uv_scale = Vector2( 1, 1 )
+shader_param/uv_offset = Vector2( 0, 0 )
+shader_param/albedo_texture = SubResource( 2 )
+
+[sub_resource type="PlaneMesh" id=1]
+size = Vector2( 20, 10 )
+
+[sub_resource type="ViewportTexture" id=5]
+viewport_path = NodePath("Viewport")
+
+[node name="Game" type="Spatial"]
+
+[node name="Viewport" type="Viewport" parent="."]
+size = Vector2( 256, 256 )
+
+[node name="Shield" type="MeshInstance" parent="Viewport"]
+transform = Transform( 0.962588, 0, 0.27097, 0, 1, 0, -0.27097, 0, 0.962588, -2.81063, 0, -0.118715 )
+mesh = ExtResource( 1 )
+material/0 = SubResource( 3 )
+
+[node name="Sword" type="MeshInstance" parent="Viewport"]
+transform = Transform( -0.929788, -0.249136, -0.27097, -0.258819, 0.965926, -7.71341e-09, 0.261737, 0.0701322, -0.962588, -3.65407, 0.217087, 0.118715 )
+mesh = ExtResource( 2 )
+material/0 = SubResource( 4 )
+
+[node name="Camera" type="Camera" parent="Viewport"]
+transform = Transform( 0.707107, -0.33559, 0.622398, 0, 0.880204, 0.474595, -0.707107, -0.33559, 0.622398, -1.77607, 1.57639, 1.68646 )
+
+[node name="Floor" type="MeshInstance" parent="Viewport"]
+transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, -6.59252, -0.568621, 0 )
+mesh = SubResource( 1 )
+material/0 = ExtResource( 3 )
+
+[node name="BehindWall" type="MeshInstance" parent="Viewport"]
+transform = Transform( 1, 0, 0, 0, -5.96046e-08, -1, 0, 1, -5.96046e-08, -0.592522, 4, -1.12085 )
+mesh = SubResource( 1 )
+material/0 = ExtResource( 3 )
+
+[node name="SideWall" type="MeshInstance" parent="Viewport"]
+transform = Transform( -4.37114e-08, 1, -5.96046e-08, 0, -5.96046e-08, -1, -1, -4.37114e-08, 2.6054e-15, -5.00961, 4, -0.120851 )
+mesh = SubResource( 1 )
+material/0 = ExtResource( 3 )
+
+[node name="OmniLight" type="OmniLight" parent="Viewport"]
+transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, -3.0876, 0.742622, 0.732734 )
+omni_range = 3.31943
+
+[node name="GameScreen" type="Control" parent="."]
+anchor_right = 1.0
+anchor_bottom = 1.0
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="TextureRect" type="TextureRect" parent="GameScreen"]
+material = ExtResource( 5 )
+anchor_right = 1.0
+anchor_bottom = 1.0
+texture = SubResource( 5 )
+stretch_mode = 1
+flip_v = true
+
+[node name="Camera2D" type="Camera2D" parent="GameScreen"]
+anchor_mode = 0
+current = true

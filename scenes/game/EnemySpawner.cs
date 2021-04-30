@@ -85,15 +85,21 @@ public class EnemySpawner : Spatial
             (e as Enemy).GetNode<Sprite3D>("Sprite").Texture = aliveSprite;
         }
         AddChild(e);
+
+        GetNode<Tween>("Tween").InterpolateProperty(e,"translation",(e as Spatial).Translation,GetNode<Position3D>("EndPos").Translation,global.enemySpeed,Tween.TransitionType.Quad,Tween.EaseType.Out);
+        GetNode<Tween>("Tween").Start();
+        GetNode<Timer>("EnemyTimer").Start();
         
     }
 
-    private void OnDetectorAreaEntered(Area area)
+    private void OnTweenCompleted(Godot.Object obj, string key)
     {
-        if(area is Enemy)
-        {
-            signalManager.EmitSignal(nameof(SignalManager.EnemyAppeared));
-        }
+        signalManager.EmitSignal(nameof(SignalManager.FightStart));
+    }
+
+    private void OnEnemyTimerTimeout()
+    {
+        signalManager.EmitSignal(nameof(SignalManager.EnemyAppeared), global.enemySpeed - GetNode<Timer>("EnemyTimer").WaitTime);
     }
 
     private void OnEnemyDead()

@@ -10,7 +10,7 @@ public class SignalManager : Node
     public delegate void PlayerAttack();
 
     [Signal]
-    public delegate void EnemyAppeared();
+    public delegate void EnemyAppeared(float stopMovingTime);
 
     [Signal]
     public delegate void EnemyDead();
