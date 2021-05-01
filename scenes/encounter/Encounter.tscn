@@ -1,7 +1,7 @@
 [gd_scene load_steps=15 format=2]
 
 [ext_resource path="res://audio/hit3.wav" type="AudioStream" id=1]
-[ext_resource path="res://scenes/enemy/Enemy.cs" type="Script" id=2]
+[ext_resource path="res://scenes/encounter/Encounter.cs" type="Script" id=2]
 [ext_resource path="res://misc/materials/TransparentToonShader.shader" type="Shader" id=3]
 [ext_resource path="res://audio/hit1.wav" type="AudioStream" id=4]
 [ext_resource path="res://sprites/SpritePlaceholder.png" type="Texture" id=5]
@@ -38,7 +38,6 @@ shader_param/albedo_texture = SubResource( 1 )
 radius = 0.466727
 
 [sub_resource type="Animation" id=4]
-resource_name = "attack"
 length = 0.4
 tracks/0/type = "value"
 tracks/0/path = NodePath("Viewport/Sprite:frame")
@@ -126,7 +125,7 @@ tracks/3/keys = {
 
 [node name="Enemy" type="Area"]
 script = ExtResource( 2 )
-sprite = ExtResource( 6 )
+Sprite = ExtResource( 5 )
 renderSprite = NodePath("Viewport/Sprite")
 
 [node name="Viewport" type="Viewport" parent="."]

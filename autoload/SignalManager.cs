@@ -47,4 +47,7 @@ public class SignalManager : Node
 
     [Signal]
     public delegate void CaveBeginingReached();
+
+    [Signal]
+    public delegate void EncounterCountUpdate(int encounterCount);
 }

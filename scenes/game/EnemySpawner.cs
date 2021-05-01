@@ -1,6 +1,8 @@
 using Godot;
 using Godot.Collections;
 using System;
+using System.Collections.Generic;
+using MonoCustomResourceRegistry;
 
 public class EnemySpawner : Spatial
 {
@@ -8,88 +10,91 @@ public class EnemySpawner : Spatial
     PackedScene enemy;
 
     [Export]
-    Texture [] aliveSprites = new Texture [0];
+    List<Resource> encounters = new List<Resource>();
 
     [Export]
-    string [] attackTimings = new string [0];
+    private float fightWaitTime = 2f;
+
+    [Export(PropertyHint.Range,"0,1")]
+    private float WaitTimeToEnemySpawnRatio = 0.5f;
+
+    
 
     private Global global;
 
     private SignalManager signalManager;
 
-    private float [] enemyPoints = new float [] {1f, 6f, 11f, 16f, 21f, 26f, 31f, 36f};
-
     private int currentIndex = 0;
 
-    private bool spawned = false;
-    private bool endReached = false;
 
     // Called when the node enters the scene tree for the first time.
-    public override void _Ready()
+    public async override void _Ready()
     {
         global = GetNode<Global>("/root/Global");
         signalManager = GetNode<SignalManager>("/root/SignalManager");
 
         signalManager.Connect(nameof(SignalManager.EnemyDead),this,"OnEnemyDead");
         signalManager.Connect(nameof(SignalManager.TurnAround),this,"OnTurnAround");
+        
+        
+
+
+        GetNode<Timer>("SpawnTimer").WaitTime = fightWaitTime * WaitTimeToEnemySpawnRatio;
+        GetNode<Timer>("SpawnTimer").Start();
+        
+        await ToSignal(GetTree(),"idle_frame");
+
+        signalManager.EmitSignal(nameof(SignalManager.EncounterCountUpdate),encounters.Count);
+
     }
 
     public override void _PhysicsProcess(float delta)
     {
-        if(currentIndex < enemyPoints.Length)
-        {
-            if(global.distance >= enemyPoints[currentIndex] && !spawned)
-            {
-                if(currentIndex == 3 || currentIndex == 7)
-                {
-                    if(!endReached)
-                    {
-                        if(!global.leavingCave)
-                        {
-                            SpawnEnemy(aliveSprites[3],true);
-                        }
-                        else
-                        {
-                            SpawnEnemy(aliveSprites[7],false,true);
-                        }
-                        endReached = true;
-                        spawned = true;
-                        return;
-                    }
-                    else
-                    {
-                        GD.Print("endReached "+ endReached+ " - Spawn "+ currentIndex);
-                    }
-                }
-                SpawnEnemy(aliveSprites[currentIndex]);
-                spawned = true;
-            }
-        }
+        
 
     }
 
-    private void SpawnEnemy(Texture aliveSprite, bool isEndItem = false, bool isCaveEntrance = false)
+    private void SpawnEnemy(Resource data)
     {
         var e = enemy.Instance();
 
-        (e as Enemy).endItem = isEndItem;
-        (e as Enemy).caveEntrance = isCaveEntrance;
-        (e as Enemy).sprite = aliveSprite;
-        (e as Enemy).TotalAttacks = int.Parse((attackTimings[currentIndex][0]).ToString());
-        (e as Enemy).AttackTimeSum = int.Parse((attackTimings[currentIndex][1]).ToString());
-        (e as Enemy).RestTime = (float)Convert.ToDouble((attackTimings[currentIndex][2]).ToString()) / (float)Convert.ToDouble((attackTimings[currentIndex][3]).ToString());
-        
-
-        if(isCaveEntrance)
+        if(data is EnemyData)
         {
-            (e as Enemy).GetNode<Sprite3D>("Sprite").Texture = aliveSprite;
+            (e as Encounter).endItem = false;
+            (e as Encounter).caveEntrance = false;
+            (e as Encounter).Health = (data as EnemyData).Health;
+            (e as Encounter).Sprite = (data as EnemyData).SpriteSheet;
+            (e as Encounter).TotalAttacks = (data as EnemyData).AttacksPerSec;
+            (e as Encounter).AttackTimeSum = (data as EnemyData).AttackTime;
+            (e as Encounter).RestTime = (data as EnemyData).RestTime;
         }
+        
+        else if(data is EncounterData)
+        {
+            (e as Encounter).Sprite = (data as EncounterData).Sprite;
+            
+            if((data as EncounterData).EncounterType == EncounterData.ENCOUNTERTYPE.Dialogue)
+            {
+                (e as Encounter).endItem = true;
+            }
+            else if((data as EncounterData).EncounterType == EncounterData.ENCOUNTERTYPE.Exit)
+            {
+                (e as Encounter).endItem = false;
+                (e as Encounter).caveEntrance = true;
+            }
+            
+            GD.Print("Implement encounter data!");
+        }
+        else
+        {
+            GD.Print("unrecognited data.");
+        }
+
         AddChild(e);
 
-        GetNode<Tween>("Tween").InterpolateProperty(e,"translation",(e as Spatial).Translation,GetNode<Position3D>("EndPos").Translation,global.enemySpeed,Tween.TransitionType.Quad,Tween.EaseType.Out);
+        GetNode<Tween>("Tween").InterpolateProperty(e,"translation",(e as Spatial).Translation,GetNode<Position3D>("EndPos").Translation,fightWaitTime - (fightWaitTime * WaitTimeToEnemySpawnRatio),Tween.TransitionType.Quad,Tween.EaseType.Out);
         GetNode<Tween>("Tween").Start();
         GetNode<Timer>("EnemyTimer").Start();
-        
     }
 
     private void OnTweenCompleted(Godot.Object obj, string key)
@@ -97,21 +102,24 @@ public class EnemySpawner : Spatial
         signalManager.EmitSignal(nameof(SignalManager.FightStart));
     }
 
+    private void OnSpawnTimerTimeout()
+    {
+        SpawnEnemy(encounters[currentIndex]);
+    }
+
     private void OnEnemyTimerTimeout()
     {
-        signalManager.EmitSignal(nameof(SignalManager.EnemyAppeared), global.enemySpeed - GetNode<Timer>("EnemyTimer").WaitTime);
+        signalManager.EmitSignal(nameof(SignalManager.EnemyAppeared), fightWaitTime - (fightWaitTime * WaitTimeToEnemySpawnRatio) - GetNode<Timer>("EnemyTimer").WaitTime);
     }
 
     private void OnEnemyDead()
     {
         currentIndex++;
-        spawned = false;
+        GetNode<Timer>("SpawnTimer").Start();
     }
 
     private void OnTurnAround()
     {
-        endReached = false;
-
         GD.Print("EnemySpawner - CHANGE TO SECOND ENEMY SET!");
     }
 

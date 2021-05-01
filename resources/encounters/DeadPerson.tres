@@ -1,0 +1,9 @@
+[gd_resource type="Resource" load_steps=3 format=2]
+
+[ext_resource path="res://mono_resource_classes/EncounterData.cs" type="Script" id=1]
+[ext_resource path="res://sprites/PersonSmall.png" type="Texture" id=2]
+
+[resource]
+script = ExtResource( 1 )
+EncounterType = 2
+Sprite = ExtResource( 2 )

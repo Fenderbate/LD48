@@ -5,25 +5,25 @@
 [ext_resource path="res://scenes/game/CaveWalls.cs" type="Script" id=3]
 [ext_resource path="res://sprites/palette.png" type="Texture" id=4]
 [ext_resource path="res://scenes/game/EnemySpawner.cs" type="Script" id=5]
-[ext_resource path="res://scenes/enemy/Enemy.tscn" type="PackedScene" id=6]
+[ext_resource path="res://scenes/encounter/Encounter.tscn" type="PackedScene" id=6]
 [ext_resource path="res://scenes/game/Game.cs" type="Script" id=7]
 [ext_resource path="res://sprites/Heart.png" type="Texture" id=8]
 [ext_resource path="res://scenes/game/Camera.cs" type="Script" id=9]
 [ext_resource path="res://misc/fonts/Font.tres" type="DynamicFont" id=10]
-[ext_resource path="res://sprites/Monster1.png" type="Texture" id=11]
+[ext_resource path="res://resources/enemies/Enemy1.tres" type="Resource" id=11]
 [ext_resource path="res://models/Sword.obj" type="ArrayMesh" id=12]
 [ext_resource path="res://models/Shield.obj" type="ArrayMesh" id=13]
-[ext_resource path="res://sprites/Monster2.png" type="Texture" id=14]
+[ext_resource path="res://resources/enemies/Enemy2.tres" type="Resource" id=14]
 [ext_resource path="res://sprites/ProgressBar.png" type="Texture" id=15]
 [ext_resource path="res://sprites/ProgressIcon.png" type="Texture" id=16]
 [ext_resource path="res://sprites/ProgressTick.png" type="Texture" id=17]
 [ext_resource path="res://misc/materials/ScreenColorMaterial.tres" type="Material" id=18]
-[ext_resource path="res://sprites/Person.png" type="Texture" id=19]
-[ext_resource path="res://sprites/CaveExit.png" type="Texture" id=20]
+[ext_resource path="res://resources/enemies/Enemy3.tres" type="Resource" id=19]
+[ext_resource path="res://resources/encounters/DeadPerson.tres" type="Resource" id=20]
 [ext_resource path="res://sprites/ShieldBar.png" type="Texture" id=21]
 [ext_resource path="res://scenes/pausemenu/PauseMenu.cs" type="Script" id=22]
 [ext_resource path="res://scenes/game/LostMenu.cs" type="Script" id=23]
-[ext_resource path="res://sprites/Monster3.png" type="Texture" id=24]
+[ext_resource path="res://resources/encounters/CaveExit.tres" type="Resource" id=24]
 [ext_resource path="res://sprites/ShieldBarProgress.png" type="Texture" id=25]
 [ext_resource path="res://sprites/Shield.png" type="Texture" id=26]
 [ext_resource path="res://audio/water2.wav" type="AudioStream" id=27]
@@ -37,11 +37,17 @@
 [ext_resource path="res://audio/Block.wav" type="AudioStream" id=35]
 [ext_resource path="res://audio/playerDead.wav" type="AudioStream" id=36]
 
-[sub_resource type="Animation" id=15]
-resource_name = "dead"
+[sub_resource type="StyleBoxTexture" id=1]
+texture = ExtResource( 15 )
+region_rect = Rect2( 0, 0, 60, 10 )
 
-[sub_resource type="Animation" id=16]
-resource_name = "end"
+[sub_resource type="StyleBoxEmpty" id=2]
+
+[sub_resource type="StyleBoxEmpty" id=3]
+
+[sub_resource type="Animation" id=4]
+
+[sub_resource type="Animation" id=5]
 length = 1.2
 tracks/0/type = "value"
 tracks/0/path = NodePath("TransitionCover:color")
@@ -95,8 +101,7 @@ tracks/3/keys = {
 THE END" ]
 }
 
-[sub_resource type="Animation" id=17]
-resource_name = "transition"
+[sub_resource type="Animation" id=6]
 length = 3.0
 tracks/0/type = "value"
 tracks/0/path = NodePath("TransitionCover:color")
@@ -162,12 +167,11 @@ tracks/4/keys = {
         Should've guessed..." ]
 }
 
-[sub_resource type="PlaneMesh" id=1]
+[sub_resource type="PlaneMesh" id=7]
 material = ExtResource( 2 )
 size = Vector2( 14, 24 )
 
-[sub_resource type="Animation" id=2]
-resource_name = "die"
+[sub_resource type="Animation" id=8]
 length = 0.8
 step = 0.05
 tracks/0/type = "value"
@@ -253,8 +257,7 @@ tracks/6/keys = {
 } ]
 }
 
-[sub_resource type="Animation" id=3]
-resource_name = "walk"
+[sub_resource type="Animation" id=9]
 loop = true
 step = 0.05
 tracks/0/type = "value"
@@ -287,8 +290,7 @@ tracks/1/keys = {
 } ]
 }
 
-[sub_resource type="Animation" id=4]
-resource_name = "SwingLeft"
+[sub_resource type="Animation" id=10]
 length = 0.1
 step = 0.01
 tracks/0/type = "value"
@@ -304,8 +306,7 @@ tracks/0/keys = {
 "values": [ Transform( -0.428125, 0.741509, -0.516598, -0.225132, 0.466104, 0.855607, 0.875228, 0.48261, -0.0326132, 1.10374, -0.79041, -0.806142 ), Transform( 0.220302, 0.900705, 0.374429, -0.914457, 0.0571196, 0.400632, 0.339464, -0.430659, 0.83624, -2.70263, -0.79041, -0.806142 ) ]
 }
 
-[sub_resource type="Animation" id=5]
-resource_name = "SwingRight"
+[sub_resource type="Animation" id=11]
 length = 0.1
 step = 0.01
 tracks/0/type = "value"
@@ -321,8 +322,7 @@ tracks/0/keys = {
 "values": [ Transform( 0.64307, -0.420798, 0.639836, -0.628569, 0.187232, 0.754881, -0.437451, -0.887622, -0.144097, -0.944773, -0.79041, -0.806142 ), Transform( 0.216966, 0.973402, -0.0735816, -0.453198, 0.167203, 0.875588, 0.864602, -0.156626, 0.477422, 1.6028, -0.79041, -0.806142 ) ]
 }
 
-[sub_resource type="Animation" id=6]
-resource_name = "reset"
+[sub_resource type="Animation" id=12]
 length = 0.1
 step = 0.01
 tracks/0/type = "value"
@@ -338,8 +338,7 @@ tracks/0/keys = {
 "values": [ Transform( -0.0372367, 0, -0.999306, -0.482275, 0.875835, 0.0179708, 0.875228, 0.48261, -0.0326132, -0.690669, -3.17482, -0.732201 ), Transform( -0.0372367, 0, -0.999306, -0.482275, 0.875835, 0.0179708, 0.875228, 0.48261, -0.0326132, -0.690669, -1.3687, -0.732201 ) ]
 }
 
-[sub_resource type="Animation" id=7]
-resource_name = "Lower"
+[sub_resource type="Animation" id=13]
 length = 0.1
 step = 0.01
 tracks/0/type = "value"
@@ -355,8 +354,7 @@ tracks/0/keys = {
 "values": [ Transform( 0.98918, 0, -0.146705, 0, 1, 0, 0.146705, 0, 0.98918, 0.317364, -0.656747, -0.85383 ), Transform( 0.890332, 0, -0.455312, 0, 1, 0, 0.455312, 0, 0.890332, 0.471237, -0.985141, -0.85383 ) ]
 }
 
-[sub_resource type="Animation" id=8]
-resource_name = "Raise"
+[sub_resource type="Animation" id=14]
 length = 0.1
 tracks/0/type = "value"
 tracks/0/path = NodePath("Hands/ShieldHandle:transform")
@@ -371,8 +369,7 @@ tracks/0/keys = {
 "values": [ Transform( 0.890332, 0, -0.455312, 0, 1, 0, 0.455312, 0, 0.890332, 0.471237, -0.985141, -0.85383 ), Transform( 0.98918, 0, -0.146705, 0, 1, 0, 0.146705, 0, 0.98918, 0.317364, -0.656747, -0.85383 ) ]
 }
 
-[sub_resource type="Animation" id=9]
-resource_name = "reset"
+[sub_resource type="Animation" id=15]
 length = 0.001
 tracks/0/type = "value"
 tracks/0/path = NodePath("Hands/ShieldHandle:transform")
@@ -387,15 +384,7 @@ tracks/0/keys = {
 "values": [ Transform( 0.890332, 0, -0.455312, 0, 1, 0, 0.455312, 0, 0.890332, 0.471237, -0.985141, -0.85383 ) ]
 }
 
-[sub_resource type="StyleBoxTexture" id=11]
-texture = ExtResource( 15 )
-region_rect = Rect2( 0, 0, 60, 10 )
-
-[sub_resource type="StyleBoxEmpty" id=12]
-
-[sub_resource type="StyleBoxEmpty" id=13]
-
-[sub_resource type="ViewportTexture" id=14]
+[sub_resource type="ViewportTexture" id=16]
 viewport_path = NodePath("Game")
 
 [node name="Game" type="Control"]
@@ -408,12 +397,36 @@ __meta__ = {
 }
 heart = ExtResource( 8 )
 
+[node name="Progress" type="HSlider" parent="."]
+use_parent_material = true
+anchor_left = 0.5
+anchor_right = 0.5
+margin_left = -248.0
+margin_top = 20.0
+margin_right = 248.0
+margin_bottom = 40.0
+mouse_filter = 2
+custom_icons/tick = ExtResource( 17 )
+custom_icons/grabber_disabled = ExtResource( 16 )
+custom_styles/slider = SubResource( 1 )
+custom_styles/grabber_area_highlight = SubResource( 2 )
+custom_styles/grabber_area = SubResource( 3 )
+max_value = 20.0
+step = 0.01
+editable = false
+scrollable = false
+tick_count = 9
+ticks_on_borders = true
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
 [node name="Tween" type="Tween" parent="."]
 
 [node name="AnimationPlayer" type="AnimationPlayer" parent="."]
-anims/dead = SubResource( 15 )
-anims/end = SubResource( 16 )
-anims/transition = SubResource( 17 )
+anims/dead = SubResource( 4 )
+anims/end = SubResource( 5 )
+anims/transition = SubResource( 6 )
 
 [node name="CaveSoundTimer" type="Timer" parent="."]
 one_shot = true
@@ -447,31 +460,31 @@ wallMaterial = ExtResource( 2 )
 
 [node name="Floor" type="MeshInstance" parent="Game/CaveWalls"]
 transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, -6 )
-mesh = SubResource( 1 )
+mesh = SubResource( 7 )
 material/0 = null
 
 [node name="LeftWall" type="MeshInstance" parent="Game/CaveWalls"]
 transform = Transform( -4.37114e-08, 1, 0, -1, -4.37114e-08, 0, 0, 0, 1, -5.18492, 5, -3 )
 layers = 4
-mesh = SubResource( 1 )
+mesh = SubResource( 7 )
 material/0 = null
 
 [node name="RightWall" type="MeshInstance" parent="Game/CaveWalls"]
 transform = Transform( -4.37114e-08, -1, 0, 1, -4.37114e-08, 0, 0, 0, 1, 4.92775, 5, -3 )
 layers = 4
-mesh = SubResource( 1 )
+mesh = SubResource( 7 )
 material/0 = null
 
 [node name="End" type="MeshInstance" parent="Game/CaveWalls"]
 transform = Transform( 1.91069e-15, 4.37114e-08, 1, 1, -4.37114e-08, 0, 4.37114e-08, 1, -4.37114e-08, 0, 5, -8.9555 )
 layers = 2
-mesh = SubResource( 1 )
+mesh = SubResource( 7 )
 material/0 = null
 
 [node name="Cieling" type="MeshInstance" parent="Game/CaveWalls"]
 transform = Transform( 1, -8.74228e-08, -4.37114e-08, -8.74228e-08, -1, 4.37114e-08, -4.37114e-08, -4.37114e-08, -1, 0, 11, -1.08373 )
 layers = 2
-mesh = SubResource( 1 )
+mesh = SubResource( 7 )
 material/0 = null
 
 [node name="Player" type="Spatial" parent="Game"]
@@ -538,18 +551,18 @@ bus = "Sound"
 
 [node name="AnimationPlayer" type="AnimationPlayer" parent="Game/Player"]
 autoplay = "walk"
-anims/die = SubResource( 2 )
-anims/walk = SubResource( 3 )
+anims/die = SubResource( 8 )
+anims/walk = SubResource( 9 )
 
 [node name="SwordAnim" type="AnimationPlayer" parent="Game/Player"]
-anims/SwingLeft = SubResource( 4 )
-anims/SwingRight = SubResource( 5 )
-anims/reset = SubResource( 6 )
+anims/SwingLeft = SubResource( 10 )
+anims/SwingRight = SubResource( 11 )
+anims/reset = SubResource( 12 )
 
 [node name="ShieldAnim" type="AnimationPlayer" parent="Game/Player"]
-anims/Lower = SubResource( 7 )
-anims/Raise = SubResource( 8 )
-anims/reset = SubResource( 9 )
+anims/Lower = SubResource( 13 )
+anims/Raise = SubResource( 14 )
+anims/reset = SubResource( 15 )
 
 [node name="Hands" type="Spatial" parent="Game/Player"]
 
@@ -572,8 +585,8 @@ material/0 = null
 transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 2, -21 )
 script = ExtResource( 5 )
 enemy = ExtResource( 6 )
-aliveSprites = [ ExtResource( 11 ), ExtResource( 14 ), ExtResource( 24 ), ExtResource( 19 ), ExtResource( 24 ), ExtResource( 14 ), ExtResource( 11 ), ExtResource( 20 ) ]
-attackTimings = PoolStringArray( "1111", "2111", "4211", "0000", "4211", "2111", "1111", "0000" )
+encounters = [ ExtResource( 11 ), ExtResource( 14 ), ExtResource( 19 ), ExtResource( 20 ), ExtResource( 19 ), ExtResource( 14 ), ExtResource( 11 ), ExtResource( 24 ) ]
+fightWaitTime = 3.0
 
 [node name="Tween" type="Tween" parent="Game/EnemySpawner"]
 
@@ -581,34 +594,11 @@ attackTimings = PoolStringArray( "1111", "2111", "4211", "0000", "4211", "2111",
 wait_time = 0.9
 one_shot = true
 
+[node name="SpawnTimer" type="Timer" parent="Game/EnemySpawner"]
+one_shot = true
+
 [node name="EndPos" type="Position3D" parent="Game/EnemySpawner"]
 transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, 21 )
-
-[node name="Progress" type="HSlider" parent="."]
-use_parent_material = true
-anchor_left = 0.5
-anchor_right = 0.5
-margin_left = -173.0
-margin_top = 28.0
-margin_right = 7.0
-margin_bottom = 44.0
-rect_scale = Vector2( 2, 2 )
-mouse_filter = 2
-custom_icons/tick = ExtResource( 17 )
-custom_icons/grabber_disabled = ExtResource( 16 )
-custom_styles/slider = SubResource( 11 )
-custom_styles/grabber_area_highlight = SubResource( 12 )
-custom_styles/grabber_area = SubResource( 13 )
-max_value = 20.0
-step = 0.01
-value = 10.0
-editable = false
-scrollable = false
-tick_count = 5
-ticks_on_borders = true
-__meta__ = {
-"_edit_use_anchors_": false
-}
 
 [node name="Stamina" type="TextureProgress" parent="."]
 use_parent_material = true
@@ -669,7 +659,7 @@ texture = ExtResource( 8 )
 use_parent_material = true
 scale = Vector2( 2, 2 )
 z_index = -10
-texture = SubResource( 14 )
+texture = SubResource( 16 )
 centered = false
 flip_v = true
 
@@ -943,6 +933,7 @@ __meta__ = {
 [connection signal="tween_completed" from="Game/Player/Tween" to="Game/Player" method="OnTweenCompleted"]
 [connection signal="tween_completed" from="Game/EnemySpawner/Tween" to="Game/EnemySpawner" method="OnTweenCompleted"]
 [connection signal="timeout" from="Game/EnemySpawner/EnemyTimer" to="Game/EnemySpawner" method="OnEnemyTimerTimeout"]
+[connection signal="timeout" from="Game/EnemySpawner/SpawnTimer" to="Game/EnemySpawner" method="OnSpawnTimerTimeout"]
 [connection signal="button_down" from="PauseMenu/CenterContainer/Panel/CenterContainer/VBoxContainer/Continue" to="PauseMenu" method="OnContinueButtonDown"]
 [connection signal="toggled" from="PauseMenu/CenterContainer/Panel/CenterContainer/VBoxContainer/Music" to="PauseMenu" method="OnMusicToggled"]
 [connection signal="toggled" from="PauseMenu/CenterContainer/Panel/CenterContainer/VBoxContainer/Sound" to="PauseMenu" method="OnSoundToggled"]

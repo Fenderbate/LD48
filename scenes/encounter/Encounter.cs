@@ -1,10 +1,10 @@
 using Godot;
 using System;
 
-public class Enemy : Area
+public class Encounter : Area
 {
     [Export]
-    public Texture sprite;
+    public Texture Sprite;
     
     [Export]
     private NodePath renderSprite;
@@ -13,7 +13,7 @@ public class Enemy : Area
 
     private SignalManager signalManager;
 
-    private int health = 8;
+    public int Health = 8;
 
     private bool dead = false;
 
@@ -32,20 +32,23 @@ public class Enemy : Area
     private int hitShakes = 0;
     
 
-    public override void _Ready()
+    public async override void _Ready()
     {
         signalManager = GetNode<SignalManager>("/root/SignalManager");
         signalManager.Connect(nameof(SignalManager.FightStart),this,"OnFightStart");
         signalManager.Connect(nameof(SignalManager.PlayerAttack),this,"OnPlayerAttack");
         signalManager.Connect(nameof(SignalManager.TurnAround),this,"OnTurnAround");
 
-        GetNode<Sprite>(renderSprite).Texture = sprite;
+        GetNode<Sprite>(renderSprite).Texture = Sprite;
 
         if(endItem || caveEntrance)
         {
-            (GetNode<Sprite3D>("Sprite").MaterialOverride as ShaderMaterial).SetShaderParam("albedo_texture",sprite);
-            GetNode<Sprite3D>("Sprite").Translation = new Vector3();
-            GetNode<Sprite3D>("Sprite").Scale = new Vector3(1,1,1);
+            (GetNode<Sprite3D>("Sprite").MaterialOverride as ShaderMaterial).SetShaderParam("albedo_texture",Sprite);
+
+            //GetNode<Sprite3D>("Sprite").Translation = new Vector3(0,3,0);
+            //GetNode<Sprite3D>("Sprite").Scale = new Vector3(1,1,1);
+
+            GD.Print(""+GetNode<Sprite3D>("Sprite").Translation+" - "+GetNode<Sprite3D>("Sprite").Scale);
         }
         else
         {
@@ -112,8 +115,8 @@ public class Enemy : Area
     private void OnPlayerAttack()
     {
         hitShakes += 5;
-        health--;
-        if(health <= 0 && !dead && !endItem)
+        Health--;
+        if(Health <= 0 && !dead && !endItem)
         {
             dead = true;
             GetNode<Timer>("AttackTimer").Stop();

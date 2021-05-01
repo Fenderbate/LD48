@@ -14,16 +14,16 @@ public class Global : Node
 
     public int health = 3;
 
-    public bool leavingCave = false;
+    //public bool leavingCave = false;
 
-    public float enemySpeed = 1.5f;
+    //public float enemySpeed = 1.5f;
 
     public void Reset()
     {
         moveSpeed = maxMoveSpeed;
         distance = 0;
         health = 3;
-        leavingCave = false;
+        //leavingCave = false;
     }
 
     public void Screenshot()

@@ -11,7 +11,6 @@ public class Game : Control
     private SignalManager signalManager;
     private Global global;
 
-    private bool leaving = false;
 
     public override void _Ready()
     {
@@ -20,9 +19,12 @@ public class Game : Control
         global = GetNode<Global>("/root/Global");
 
         signalManager.Connect(nameof(SignalManager.UpdatePlayerHP),this,"OnUpdatePlayerHP");
-        signalManager.Connect(nameof(SignalManager.TurnAround),this,"OnTurnAround");
         signalManager.Connect(nameof(SignalManager.CaveEndReached),this,"OnCaveEndReached");
         signalManager.Connect(nameof(SignalManager.CaveBeginingReached),this,"OnCaveBeginingReached");
+        signalManager.Connect(nameof(SignalManager.EncounterCountUpdate),this,"OnEncounterCountUpdate");
+        signalManager.Connect(nameof(SignalManager.EnemyDead),this,"OnFightEnd");
+
+        OnFightEnd();
     }
 
 
@@ -52,7 +54,7 @@ public class Game : Control
 
     public override void _PhysicsProcess(float delta)
     {
-        GetNode<Slider>("Progress").Value = leaving ? global.distance - GetNode<Slider>("Progress").MaxValue : global.distance;
+
     }
 
     
@@ -67,6 +69,17 @@ public class Game : Control
         
     }
 
+    private void OnFightEnd()
+    {
+        GetNode<Tween>("Tween").InterpolateProperty(GetNode<Slider>("Progress"),"value", GetNode<Slider>("Progress").Value, GetNode<Slider>("Progress").Value+20, 3,Tween.TransitionType.Sine);
+        GetNode<Tween>("Tween").Start();
+    }
+
+    private void OnEncounterCountUpdate(int encounters)
+    {
+        GetNode<Slider>("Progress").MaxValue = 20 * encounters;
+    }
+
     private void TransitionTurnBack()
     {
         signalManager.EmitSignal(nameof(SignalManager.TurnAround));
@@ -79,13 +92,6 @@ public class Game : Control
         GD.Print("Game.cs - OnUpdatePlayerHP is depricated.");
     }
 
-    private void OnTurnAround()
-    {
-
-        global.leavingCave = true;
-        leaving = true;
-    }
-
     
 
     private void OnCaveEndReached()
@@ -96,7 +102,6 @@ public class Game : Control
     private void OnCaveBeginingReached()
     {
         GetNode<AnimationPlayer>("AnimationPlayer").Play("end");
-        GD.Print("MAKE ENDING!");
     }
 
     #region ambient code
